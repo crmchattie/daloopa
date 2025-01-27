@@ -11,9 +11,7 @@ export async function GET(req: NextRequest) {
     }
   })
   
-  const baseUrl = process.env.NODE_ENV === 'development' 
-    ? process.env.NEXT_PUBLIC_API_URL 
-    : ''
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL
   const apiUrl = `${baseUrl}/api/py/${path}${params.toString() ? `?${params.toString()}` : ''}`
   
   console.log('Request URL:', apiUrl)
@@ -42,9 +40,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const path = req.nextUrl.pathname.replace('/api/', '')
-  const baseUrl = process.env.NODE_ENV === 'development' 
-    ? process.env.NEXT_PUBLIC_API_URL 
-    : ''
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL
   const apiUrl = `${baseUrl}/api/py/${path}`
 
   try {
