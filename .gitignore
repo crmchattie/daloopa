@@ -37,4 +37,7 @@ next-env.d.ts
 
 # python
 __pycache__/
+*.py[cod]
+*$py.class
+api/__pycache__/
 venv/

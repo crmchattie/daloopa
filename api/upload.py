@@ -7,6 +7,19 @@ from openpyxl.styles.borders import Border, Side
 import json
 from pymongo import MongoClient
 import os
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# MongoDB Configuration with default values as fallback
+MONGO_URI = getenv('MONGO_URI') or "mongodb://localhost:27017"
+DATABASE_NAME = getenv('DATABASE_NAME') or "daloopa"
+COLLECTION_NAME = getenv('COLLECTION_NAME') or "companies"
+
+# Verify environment variables are loaded
+if not all([MONGO_URI, DATABASE_NAME, COLLECTION_NAME]):
+    raise ValueError("Required environment variables are not set")
 
 app = FastAPI()
 
@@ -298,10 +311,6 @@ def csv_to_nosql(sheet, company, ticker, updated_at, last_updated_with):
     print("Excel to NoSQL transformation complete.")
     return database_object
 
-
-MONGO_URI = "mongodb+srv://crmchattie:wlfkYHdCsO3MbAz2@daloopa.strbq.mongodb.net/?retryWrites=true&w=majority&appName=Daloopa"
-DATABASE_NAME = "daloopa"
-COLLECTION_NAME = "companies"
 
 @app.get("/process_file/")
 def process_file():

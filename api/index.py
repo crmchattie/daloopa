@@ -1,3 +1,5 @@
+from os import getenv
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,6 +8,8 @@ from pymongo import MongoClient
 import base64
 import os
 from typing import Optional
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -18,17 +22,27 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# MongoDB Configuration
-MONGO_URI = "mongodb+srv://crmchattie:wlfkYHdCsO3MbAz2@daloopa.strbq.mongodb.net/?retryWrites=true&w=majority&appName=Daloopa"
-DATABASE_NAME = "daloopa"
-COLLECTION_NAME = "companies"
+# MongoDB Configuration with default values as fallback
+MONGO_URI = getenv('MONGO_URI') or "mongodb://localhost:27017"
+DATABASE_NAME = getenv('DATABASE_NAME') or "daloopa"
+COLLECTION_NAME = getenv('COLLECTION_NAME') or "companies"
+
+# Verify environment variables are loaded
+if not all([MONGO_URI, DATABASE_NAME, COLLECTION_NAME]):
+    raise ValueError("Required environment variables are not set")
+
 client = MongoClient(MONGO_URI)
 db = client[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
 
-# API Key for Authentication
-API_USERNAME = "daloopa"
-API_KEY = "MGIGYv1MMAE5BheY"
+# API Key for Authentication with default values as fallback
+API_USERNAME = getenv('API_USERNAME') or "default_user"
+API_KEY = getenv('API_KEY') or "default_key"
+
+# Verify auth environment variables are loaded
+if API_USERNAME == "default_user" or API_KEY == "default_key":
+    print("Warning: Using default authentication credentials")
+
 AUTH_HEADER = base64.b64encode(f"{API_USERNAME}:{API_KEY}".encode()).decode()
 
 # Define security
