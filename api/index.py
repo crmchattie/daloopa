@@ -16,7 +16,7 @@ app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allow the Next.js frontend
+    allow_origins=["http://localhost:3000", "https://v0-daloopa-pwmoe6lpl42.vercel.app"],  # Allow the Next.js frontend
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
@@ -89,8 +89,10 @@ async def download_excel():
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="Excel file not found")
     
+    origin = 'http://localhost:3000' if getenv('NODE_ENV') == 'development' else 'https://v0-daloopa-pwmoe6lpl42.vercel.app'
+    
     headers = {
-        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'Access-Control-Allow-Origin': origin,
         'Access-Control-Allow-Methods': 'GET',
         'Access-Control-Allow-Headers': 'Authorization',
     }
