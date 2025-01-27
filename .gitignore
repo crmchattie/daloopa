@@ -40,4 +40,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 api/__pycache__/
+upload.py
 venv/
