@@ -33,19 +33,22 @@ export function ControlPanel({ onUpdateData }: ControlPanelProps) {
   }
 
   return (
-    <div className="w-full bg-white border-b shadow-sm p-4 flex items-center gap-4">
-      <button
-        onClick={onUpdateData}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      >
-        Pull Data
-      </button>
-      <button
-        onClick={handleDownloadExcel}
-        className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-      >
-        Download Excel
-      </button>
+    <div className="w-full bg-white border-b shadow-sm p-4 flex flex-col items-center gap-4">
+      <h1 className="text-3xl font-semibold text-gray-800">Reddit Model</h1>
+      <div className="flex items-center gap-4">
+        <button
+          onClick={onUpdateData}
+          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          Update Data
+        </button>
+        <button
+          onClick={handleDownloadExcel}
+          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+        >
+          Download Excel
+        </button>
+      </div>
     </div>
   )
 } 
