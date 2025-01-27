@@ -1,0 +1,16 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/get_company",
+        "destination": "/api/get_company"
+      },
+      {
+        "source": "/api/download_excel",
+        "destination": "/api/download_excel"
+      },
+      {
+        "source": "/api/py/:path*",
+        "destination": "https://v0-daloopa-pwmoe6lpl42.vercel.app/api/py/:path*"
+      }
+    ]
+}
