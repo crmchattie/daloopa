@@ -3,7 +3,12 @@ import { NextRequest, NextResponse } from 'next/server'
 export const runtime = 'edge'
 
 export async function GET(req: NextRequest) {
-  const path = req.nextUrl.pathname.replace('/api/', '')
+  // Remove any duplicate /py/ in the path
+  const path = req.nextUrl.pathname
+    .replace('/api/', '')
+    .replace(/^py\//, '')  // Remove leading py/
+    .replace(/\/py\//g, '/') // Remove any /py/ in the middle
+  
   const params = new URLSearchParams()
   req.nextUrl.searchParams.forEach((value, key) => {
     if (key !== 'path') {
@@ -39,7 +44,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const path = req.nextUrl.pathname.replace('/api/', '')
+  // Remove any duplicate /py/ in the path
+  const path = req.nextUrl.pathname
+    .replace('/api/', '')
+    .replace(/^py\//, '')  // Remove leading py/
+    .replace(/\/py\//g, '/') // Remove any /py/ in the middle
+    
   const baseUrl = process.env.NEXT_PUBLIC_API_URL
   const apiUrl = `${baseUrl}/api/py/${path}`
 
