@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const baseUrl = process.env.NODE_ENV === 'development' 
     ? process.env.NEXT_PUBLIC_API_URL 
     : ''
-  const apiUrl = `${baseUrl}/api/${path}?${searchParams}`
+  const apiUrl = `${baseUrl}/api/py/${path}?${searchParams}`
   
   console.log('Request URL:', apiUrl)
   console.log('Environment:', process.env.NODE_ENV)
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   const baseUrl = process.env.NODE_ENV === 'development' 
     ? process.env.NEXT_PUBLIC_API_URL 
     : ''
-  const apiUrl = `${baseUrl}/api/${path}`
+  const apiUrl = `${baseUrl}/api/py/${path}`
 
   try {
     const body = await req.json()

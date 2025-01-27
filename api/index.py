@@ -11,7 +11,7 @@ from typing import Optional
 
 load_dotenv()
 
-app = FastAPI()
+app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
 # Add CORS middleware
 app.add_middleware(
@@ -55,7 +55,7 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
         raise HTTPException(status_code=401, detail="Invalid API credentials")
     return True
 
-@app.get("/api/get_company")
+@app.get("/api/py/get_company")
 def get_company(
     ticker: Optional[str] = None,
     company: Optional[str] = None,
@@ -78,15 +78,15 @@ def get_company(
         print(f"Error processing request: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
-@app.get("/api/hello")
+@app.get("/api/py/hello")
 async def hello():
     return {"message": "Hello from FastAPI!"}
 
-@app.options("/api/get_company")
+@app.options("/api/py/get_company")
 async def options_get_company():
     return {"message": "OK"}
 
-@app.get("/api/download_excel")
+@app.get("/api/py/download_excel")
 async def download_excel():
     file_path = "RDDT Model.xlsx"
     

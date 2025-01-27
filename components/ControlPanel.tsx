@@ -1,5 +1,6 @@
 "use client"
 
+
 interface ControlPanelProps {
   onUpdateData: () => void;
 }
@@ -7,16 +8,19 @@ interface ControlPanelProps {
 export function ControlPanel({ onUpdateData }: ControlPanelProps) {
   const handleDownloadExcel = async () => {
     try {
-      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/download_excel`
-      const response = await fetch(fullUrl, {
+      // Use /api/download_excel in development, /api/py/download_excel in production
+      const DOWNLOAD_PATH = process.env.NODE_ENV === 'development'
+        ? '/api/download_excel'
+        : '/api/py/download_excel'
+      const response = await fetch(DOWNLOAD_PATH, {
         method: 'GET',
         headers: {
           'Authorization': 'Basic ' + btoa('daloopa:MGIGYv1MMAE5BheY'),
         },
       })
-      
+
       if (!response.ok) throw new Error('Download failed')
-      
+
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')

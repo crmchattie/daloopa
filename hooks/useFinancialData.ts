@@ -12,13 +12,14 @@ export function useFinancialData() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/get_company`
-      console.log('Attempting to fetch from:', fullUrl)
-      console.log('Environment:', process.env.NODE_ENV)
-      console.log('API_URL:', process.env.NEXT_PUBLIC_API_URL)
-      
+      // Use /api/get_company in development, /api/py/get_company in production
+      const API_PATH = process.env.NODE_ENV === 'development'
+        ? '/api/get_company'
+        : '/api/py/get_company'
+      console.log('Attempting to fetch from:', API_PATH)
+
       const response = await axios.get<{ success: boolean; data: FinancialData }>(
-        fullUrl,
+        API_PATH,
         {
           params: { ticker: "RDDT" },
           auth: {
@@ -60,7 +61,7 @@ export function useFinancialData() {
         const num = parseFloat(numStr)
         return isNaN(num) ? value : num
       }
-      
+
       // Handle regular number strings
       const num = parseFloat(value.replace(/,/g, ''))
       if (!isNaN(num)) {
@@ -175,7 +176,7 @@ export function useFinancialData() {
       const addedCategories = new Set<string>()
       const addedSubcategories = new Set<string>()
       const addedSubsubcategories = new Set<string>()
-      
+
       data.metrics.forEach((metric) => {
         // Add section row if not already added
         const sectionId = `${metric.section.name}-${metric.section.order}`
@@ -239,7 +240,7 @@ export function useFinancialData() {
         if (metric.subsubcategory.name && !addedSubsubcategories.has(subsubcategoryId)) {
           rows.push({
             id: `subsubcategory-${subsubcategoryId}-${rowIndex++}`,
-            type: "subsubcategory", 
+            type: "subsubcategory",
             name: metric.subsubcategory.name,
             styling: metric.subsubcategory.styling,
           })
@@ -274,7 +275,7 @@ export function useFinancialData() {
         })
 
         rows.push(dataRow)
-        
+
         if (metric.name.empty_row_after) {
           rows.push({
             id: `empty-${rowIndex++}`,
