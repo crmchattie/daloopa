@@ -11,7 +11,7 @@ from typing import Optional
 
 load_dotenv()
 
-app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
+app = FastAPI()
 
 # Add CORS middleware
 app.add_middleware(

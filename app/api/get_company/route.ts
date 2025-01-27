@@ -11,9 +11,10 @@ export async function GET(req: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL
   const apiUrl = `${baseUrl}/api/py/get_company${params.toString() ? `?${params.toString()}` : ''}`
   
-  console.log('Request URL:', apiUrl)
-  console.log('Environment:', process.env.NODE_ENV)
-  console.log('Base URL:', baseUrl)
+  console.log('Making request to:', apiUrl)
+  console.log('With headers:', {
+    'Authorization': req.headers.get('Authorization') || '',
+  })
 
   try {
     const response = await fetch(apiUrl, {
@@ -23,7 +24,10 @@ export async function GET(req: NextRequest) {
     })
     
     if (!response.ok) {
-      console.error('API response error:', await response.text())
+      const errorText = await response.text()
+      console.error('API response error:', errorText)
+      console.error('Response status:', response.status)
+      console.error('Response headers:', Object.fromEntries(response.headers.entries()))
       throw new Error(`API responded with status ${response.status}`)
     }
     
