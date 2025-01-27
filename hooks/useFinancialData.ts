@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react"
 import axios from "axios"
 import { FinancialData, TransformedData } from "@/lib/types"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = '/api'  // Use relative path to hit Next.js API routes
 
 export function useFinancialData() {
   const [data, setData] = useState<FinancialData | null>(null)
@@ -13,7 +13,7 @@ export function useFinancialData() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const fullUrl = `${API_URL}/api/get_company`
+      const fullUrl = `${API_URL}/get_company`  // This will hit /api/get_company in our Next.js API routes
       console.log('Attempting to fetch from:', fullUrl)
       console.log('Environment:', process.env.NODE_ENV)
       console.log('API_URL:', process.env.NEXT_PUBLIC_API_URL)
