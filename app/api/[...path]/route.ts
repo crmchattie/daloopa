@@ -3,12 +3,18 @@ import { NextRequest, NextResponse } from 'next/server'
 export const runtime = 'edge'
 
 export async function GET(req: NextRequest) {
-  const path = req.nextUrl.pathname.replace('/api/py/', '')
-  // In development, use FastAPI server, in production use same server
+  const path = req.nextUrl.pathname.replace('/api/', '')
+  const params = new URLSearchParams()
+  req.nextUrl.searchParams.forEach((value, key) => {
+    if (key !== 'path') {
+      params.append(key, value)
+    }
+  })
+  
   const baseUrl = process.env.NODE_ENV === 'development' 
     ? process.env.NEXT_PUBLIC_API_URL 
     : ''
-  const apiUrl = `${baseUrl}/api/py/${path}`
+  const apiUrl = `${baseUrl}/api/py/${path}${params.toString() ? `?${params.toString()}` : ''}`
   
   console.log('Request URL:', apiUrl)
   console.log('Environment:', process.env.NODE_ENV)
@@ -35,7 +41,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const path = req.nextUrl.pathname.replace('/api/py/', '')
+  const path = req.nextUrl.pathname.replace('/api/', '')
   const baseUrl = process.env.NODE_ENV === 'development' 
     ? process.env.NEXT_PUBLIC_API_URL 
     : ''
