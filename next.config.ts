@@ -21,8 +21,8 @@ const nextConfig: NextConfig = {
         source: "/api/py/:path*",
         destination:
           process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/api/:path*"
-            : "https://v0-daloopa-pwmoe6lpl42.vercel.app/api/:path*",
+            ? "http://127.0.0.1:8000/api/py/:path*"
+            : "/api/py/:path*",
       },
     ];
   },
