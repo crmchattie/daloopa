@@ -3,9 +3,13 @@ import { NextRequest, NextResponse } from 'next/server'
 export const runtime = 'edge'
 
 export async function GET(req: NextRequest) {
-  const path = req.nextUrl.pathname.replace('/api/py/', '')
+  const path = req.nextUrl.pathname.replace('/api/', '')
   const searchParams = req.nextUrl.searchParams
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/${path}?${searchParams}`
+  // In development, use FastAPI server, in production use same server
+  const baseUrl = process.env.NODE_ENV === 'development' 
+    ? process.env.NEXT_PUBLIC_API_URL 
+    : ''
+  const apiUrl = `${baseUrl}/api/${path}?${searchParams}`
 
   try {
     const response = await fetch(apiUrl, {
@@ -15,31 +19,27 @@ export async function GET(req: NextRequest) {
     })
     
     const data = await response.json()
-    return new Response(JSON.stringify(data), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    return NextResponse.json(data)
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to fetch data' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    console.error('API Error:', error)
+    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 })
   }
 }
 
 export async function POST(req: NextRequest) {
-  const path = req.nextUrl.pathname.replace("/api/py", "")
-  const url = `${process.env.NEXT_PUBLIC_FASTAPI_URL}${path}`
+  const path = req.nextUrl.pathname.replace('/api/', '')
+  const baseUrl = process.env.NODE_ENV === 'development' 
+    ? process.env.NEXT_PUBLIC_API_URL 
+    : ''
+  const apiUrl = `${baseUrl}/api/${path}`
 
   try {
     const body = await req.json()
-    const response = await fetch(url, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': req.headers.get('Authorization') || '',
       },
       body: JSON.stringify(body),
     })
