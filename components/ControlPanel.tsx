@@ -8,11 +8,7 @@ interface ControlPanelProps {
 export function ControlPanel({ onUpdateData }: ControlPanelProps) {
   const handleDownloadExcel = async () => {
     try {
-      // Use /api/download_excel in development, /api/py/download_excel in production
-      const DOWNLOAD_PATH = process.env.NODE_ENV === 'development'
-        ? '/api/download_excel'
-        : '/api/py/download_excel'
-      const response = await fetch(DOWNLOAD_PATH, {
+      const response = await fetch('/api/download_excel', {
         method: 'GET',
         headers: {
           'Authorization': 'Basic ' + btoa('daloopa:MGIGYv1MMAE5BheY'),

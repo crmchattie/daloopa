@@ -12,14 +12,8 @@ export function useFinancialData() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      // Use /api/get_company in development, /api/py/get_company in production
-      const API_PATH = process.env.NODE_ENV === 'development'
-        ? '/api/get_company'
-        : '/api/py/get_company'
-      console.log('Attempting to fetch from:', API_PATH)
-
       const response = await axios.get<{ success: boolean; data: FinancialData }>(
-        API_PATH,
+        '/api/get_company',
         {
           params: { ticker: "RDDT" },
           auth: {
