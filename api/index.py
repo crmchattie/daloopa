@@ -61,6 +61,8 @@ def get_company(
     company: Optional[str] = None,
     credentials: HTTPBasicCredentials = Depends(authenticate),
 ):
+    print(f"Received request for ticker: {ticker}, company: {company}")
+    
     if not ticker and not company:
         raise HTTPException(status_code=400, detail="Either 'ticker' or 'company' must be provided as a query parameter.")
 
@@ -68,10 +70,12 @@ def get_company(
 
     try:
         company_data = collection.find_one(query_filter, {"_id": 0})
+        print(f"Query result: {'Found' if company_data else 'Not found'}")
         if not company_data:
             raise HTTPException(status_code=404, detail="Company not found.")
         return {"success": True, "data": company_data}
     except Exception as e:
+        print(f"Error processing request: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 @app.get("/api/hello")
