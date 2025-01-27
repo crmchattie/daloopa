@@ -14,5 +14,4 @@ nosetests.xml
 coverage.xml
 *.cover
 *.log
-.pytest_cache 
-upload.py
+.pytest_cache upload.py
