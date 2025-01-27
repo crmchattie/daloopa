@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react"
 import axios from "axios"
 import { FinancialData, TransformedData } from "@/lib/types"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export function useFinancialData() {
   const [data, setData] = useState<FinancialData | null>(null)
@@ -13,7 +12,7 @@ export function useFinancialData() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
-      const fullUrl = `${API_URL}/api/get_company`
+      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/get_company`
       console.log('Attempting to fetch from:', fullUrl)
       console.log('Environment:', process.env.NODE_ENV)
       console.log('API_URL:', process.env.NEXT_PUBLIC_API_URL)
