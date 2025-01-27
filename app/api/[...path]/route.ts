@@ -4,12 +4,11 @@ export const runtime = 'edge'
 
 export async function GET(req: NextRequest) {
   const path = req.nextUrl.pathname.replace('/api/py/', '')
-  const searchParams = req.nextUrl.searchParams
   // In development, use FastAPI server, in production use same server
   const baseUrl = process.env.NODE_ENV === 'development' 
     ? process.env.NEXT_PUBLIC_API_URL 
     : ''
-  const apiUrl = `${baseUrl}/api/py/${path}?${searchParams}`
+  const apiUrl = `${baseUrl}/api/py/${path}`
   
   console.log('Request URL:', apiUrl)
   console.log('Environment:', process.env.NODE_ENV)
