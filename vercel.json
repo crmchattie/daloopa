@@ -1,7 +1,18 @@
 {
     "rewrites": [
       {
+        "source": "/api/py/:path*",
+        "destination": "/api/py/:path*"
+      },
+      {
         "source": "/api/:path*",
+        "has": [
+          {
+            "type": "regex",
+            "key": "pathname",
+            "value": "^(?!.*py).*$"
+          }
+        ],
         "destination": "/api/:path*"
       }
     ]
