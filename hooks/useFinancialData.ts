@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react"
 import axios from "axios"
 import { FinancialData, TransformedData } from "@/lib/types"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 export function useFinancialData() {
   const [data, setData] = useState<FinancialData | null>(null)
   const [transformedData, setTransformedData] = useState<TransformedData | null>(null)
@@ -12,7 +14,7 @@ export function useFinancialData() {
     try {
       setLoading(true)
       const response = await axios.get<{ success: boolean; data: FinancialData }>(
-        "http://localhost:8000/api/get_company",
+        `${API_URL}/api/get_company`,
         {
           params: { ticker: "RDDT" },
           auth: {
