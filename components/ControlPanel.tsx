@@ -1,7 +1,5 @@
 "use client"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 interface ControlPanelProps {
   onUpdateData: () => void;
 }
@@ -9,7 +7,7 @@ interface ControlPanelProps {
 export function ControlPanel({ onUpdateData }: ControlPanelProps) {
   const handleDownloadExcel = async () => {
     try {
-      const fullUrl = `${API_URL}/api/download_excel`
+      const fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/download_excel`
       const response = await fetch(fullUrl, {
         method: 'GET',
         headers: {
