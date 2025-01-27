@@ -9,7 +9,8 @@ interface ControlPanelProps {
 export function ControlPanel({ onUpdateData }: ControlPanelProps) {
   const handleDownloadExcel = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/download_excel`, {
+      const fullUrl = `${API_URL}/api/download_excel`
+      const response = await fetch(fullUrl, {
         method: 'GET',
         headers: {
           'Authorization': 'Basic ' + btoa('daloopa:MGIGYv1MMAE5BheY'),

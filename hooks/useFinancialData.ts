@@ -13,13 +13,15 @@ export function useFinancialData() {
   const fetchData = useCallback(async () => {
     try {
       setLoading(true)
+      const fullUrl = `${API_URL}/api/get_company`
+      console.log('Attempting to fetch from:', fullUrl)
       const response = await axios.get<{ success: boolean; data: FinancialData }>(
-        `${API_URL}/api/get_company`,
+        fullUrl,
         {
           params: { ticker: "RDDT" },
           auth: {
-            username: "daloopa",
-            password: "MGIGYv1MMAE5BheY",
+            username: 'daloopa',
+            password: 'MGIGYv1MMAE5BheY',
           },
           withCredentials: true,
         },
