@@ -10,6 +10,10 @@ export async function GET(req: NextRequest) {
     ? process.env.NEXT_PUBLIC_API_URL 
     : ''
   const apiUrl = `${baseUrl}/api/${path}?${searchParams}`
+  
+  console.log('Request URL:', apiUrl)
+  console.log('Environment:', process.env.NODE_ENV)
+  console.log('Base URL:', baseUrl)
 
   try {
     const response = await fetch(apiUrl, {
@@ -17,6 +21,11 @@ export async function GET(req: NextRequest) {
         'Authorization': req.headers.get('Authorization') || '',
       },
     })
+    
+    if (!response.ok) {
+      console.error('API response error:', await response.text())
+      throw new Error(`API responded with status ${response.status}`)
+    }
     
     const data = await response.json()
     return NextResponse.json(data)
